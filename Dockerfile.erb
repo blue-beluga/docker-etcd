@@ -1,0 +1,26 @@
+# encoding: UTF-8
+
+FROM <%= ENV.fetch('FROM') %>
+MAINTAINER The Blue Beluga <admin@bluebeluga.io>
+
+LABEL name="etcd"
+LABEL description="Alpine Linux Base with etcd"
+LABEL version="<%= ENV.fetch('ETCD_VERSION') %>"
+LABEL git_revision="<%= ENV.fetch('GIT_REVISION') %>"
+
+ENV ETCD_VERSION <%= ENV.fetch('ETCD_VERSION') %>
+ENV ETCD_SHA256 <%= ENV.fetch('ETCD_SHA256') %>
+
+RUN apk-install curl ca-certificates && \
+    curl -sSLO "https://github.com/coreos/etcd/releases/download/v${ETCD_VERSION}/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz" && \
+    echo "${ETCD_SHA256}  etcd-v${ETCD_VERSION}-linux-amd64.tar.gz" | sha256sum -c - && \
+    tar zxf "etcd-v${ETCD_VERSION}-linux-amd64.tar.gz" && \
+    mv "etcd-v${ETCD_VERSION}-linux-amd64/etcdctl" /usr/bin && \
+    mv "etcd-v${ETCD_VERSION}-linux-amd64/etcd" /usr/bin && \
+    rm -rf "etcd-v${ETCD_VERSION}-linux-amd64.tar.gz" \
+           "etcd-v${ETCD_VERSION}-linux-amd64" && \
+    apk del curl && \
+    rm -rf /var/cache/apk/*
+VOLUME ["/data"]
+EXPOSE 2379 2380
+ENTRYPOINT ["/usr/bin/etcd"]

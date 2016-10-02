@@ -1,0 +1,3 @@
+
+export ETCD_VERSION = 3.0.10
+export ETCD_SHA256 = 0bae4f63f60ec1813fdc346a71fef02b33ead4a7a0f8bf4799a29402cd6c6050

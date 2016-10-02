@@ -3,10 +3,11 @@
 FROM <%= ENV.fetch('FROM') %>
 MAINTAINER The Blue Beluga <admin@bluebeluga.io>
 
-LABEL name="etcd"
-LABEL description="Alpine Linux Base with etcd"
-LABEL version="<%= ENV.fetch('ETCD_VERSION') %>"
-LABEL git_revision="<%= ENV.fetch('GIT_REVISION') %>"
+LABEL vendor="The Blue Beluga Company"
+LABEL io.bluebeluga.etcd.description="etcd"
+LABEL io.bluebeluga.etcd.version="<%= ENV.fetch('TAG') %>"
+LABEL io.bluebeluga.etcd.git-revision="<%= ENV.fetch('GIT_REVISION') %>"
+LABEL io.bluebeluga.etcd.release-date="<%= Time.now.strftime('%B %d, %Y %H:%M') %>"
 
 ENV ETCD_VERSION <%= ENV.fetch('ETCD_VERSION') %>
 ENV ETCD_SHA256 <%= ENV.fetch('ETCD_SHA256') %>
